@@ -33,15 +33,15 @@ func InsertBlock(transaction string, chainHead *Block) *Block {
 
 	if chainHead == nil {
 
-		newBlock.transaction = transaction
-		newBlock.previousBlock = chainHead
-		newBlock.hashValue = ""
+		newBlock.Transaction = transaction
+		newBlock.PreviousBlock = chainHead
+		newBlock.HashValue = ""
 		println("Genesis Block Added")
 	} else {
 
-		newBlock.transaction = transaction
-		newBlock.previousBlock = chainHead
-		newBlock.hashValue = hashBlock(chainHead.transaction + chainHead.hashValue)
+		newBlock.Transaction = transaction
+		newBlock.PreviousBlock = chainHead
+		newBlock.HashValue = hashBlock(chainHead.Transaction + chainHead.HashValue)
 		println("New Block Added")
 	}
 
@@ -50,14 +50,14 @@ func InsertBlock(transaction string, chainHead *Block) *Block {
 
 func VerifyChain(chainHead *Block) string {
 
-	if chainHead.previousBlock == nil { //genesis Node
+	if chainHead.PreviousBlock == nil { //genesis Node
 
-		return hashBlock(chainHead.transaction)
+		return hashBlock(chainHead.Transaction)
 
 	} else {
-		blockHash := VerifyChain(chainHead.previousBlock)
+		blockHash := VerifyChain(chainHead.PreviousBlock)
 
-		if blockHash == chainHead.hashValue {
+		if blockHash == chainHead.HashValue {
 			println("Hash Matches")
 
 		} else {
@@ -65,18 +65,18 @@ func VerifyChain(chainHead *Block) string {
 
 		}
 
-		return hashBlock(chainHead.transaction + blockHash)
+		return hashBlock(chainHead.Transaction + blockHash)
 
 	}
 }
 
 func ChangeBlock(oldTrans string, newTrans string, chainHead *Block) {
 
-	if chainHead.previousBlock == nil { //Genesis Block
+	if chainHead.PreviousBlock == nil { //Genesis Block
 
-		if chainHead.transaction == oldTrans { //If required block is found
+		if chainHead.Transaction == oldTrans { //If required block is found
 
-			chainHead.transaction = newTrans
+			chainHead.Transaction = newTrans
 			println("Block Changed")
 		}
 
@@ -84,9 +84,9 @@ func ChangeBlock(oldTrans string, newTrans string, chainHead *Block) {
 
 		ChangeBlock(oldTrans, newTrans, chainHead.previousBlock)
 
-		if chainHead.transaction == oldTrans { //If required block is found
+		if chainHead.Transaction == oldTrans { //If required block is found
 
-			chainHead.transaction = newTrans
+			chainHead.Transaction = newTrans
 			println("Block Changed")
 		}
 	}
@@ -94,15 +94,15 @@ func ChangeBlock(oldTrans string, newTrans string, chainHead *Block) {
 
 func ListBlocks(chainHead *Block) {
 
-	if chainHead.previousBlock == nil { //genesis Node
+	if chainHead.PreviousBlock == nil { //genesis Node
 
-		println("Transaction: " + chainHead.transaction)
+		println("Transaction: " + chainHead.Transaction)
 		println("Genesis Block.\n")
 
 	} else {
-		println("Transaction " + chainHead.transaction)
-		println("Hash Value: " + chainHead.hashValue)
+		println("Transaction " + chainHead.Transaction)
+		println("Hash Value: " + chainHead.HashValue)
 
-		ListBlocks(chainHead.previousBlock)
+		ListBlocks(chainHead.PreviousBlock)
 	}
 }
