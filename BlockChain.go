@@ -7,9 +7,9 @@ import (
 )
 
 type Block struct {
-	previousBlock *Block
-	hashValue     string
-	transaction   string
+	PreviousBlock *Block
+	HashValue     string
+	Transaction   string
 }
 
 func hashBlock(block string) string {
