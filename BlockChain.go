@@ -82,7 +82,7 @@ func ChangeBlock(oldTrans string, newTrans string, chainHead *Block) {
 
 	} else { //recursivly iterate to the required block
 
-		ChangeBlock(oldTrans, newTrans, chainHead.previousBlock)
+		ChangeBlock(oldTrans, newTrans, chainHead.PreviousBlock)
 
 		if chainHead.Transaction == oldTrans { //If required block is found
 
