@@ -1,4 +1,4 @@
-package assignment01IBC
+package assignment02IBC
 
 import (
 	"crypto/hmac"
