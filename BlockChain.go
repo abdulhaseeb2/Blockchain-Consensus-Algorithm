@@ -51,7 +51,7 @@ func GetBalance(name string, chainHead *Block) int {
 
 	} else {
 
-		bal := getBalance(name, chainHead.PreviousBlock)
+		bal := GetBalance(name, chainHead.PreviousBlock)
 		bal1 := 0
 		if strings.Contains(chainHead.Transaction, name) {
 			split := strings.Split(chainHead.Transaction, " ")
