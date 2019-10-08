@@ -4,6 +4,8 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"strconv"
+	"strings"
 )
 
 type Block struct {
@@ -25,6 +27,44 @@ func hashBlock(block string) string {
 
 	return sha
 
+}
+
+func getBalance(name string, chainHead *Block) int {
+	if chainHead.PreviousBlock == nil { //genesis Node
+		if strings.Contains(chainHead.Transaction, name) {
+			bal := 0
+			split := strings.Split(chainHead.Transaction, " ")
+			if split[0] == name { //payee
+				bal -= strconv.Atoi(split[1])
+			} else if split[2] == name { //miner
+				bal += strconv.Atoi(split[0])
+			} else if split[3] == name { //reciver
+				bal += strconv.Atoi(split[1])
+			} else if split[7] == name { //miner
+				bal += strconv.Atoi(split[5])
+			}
+		}
+
+		return 0
+
+	} else {
+
+		bal := getBalance(name, chainHead.PreviousBlock)
+		if strings.Contains(chainHead.Transaction, name) {
+			split := strings.Split(chainHead.Transaction, " ")
+			if split[0] == name { //payee
+				bal -= strconv.Atoi(split[1])
+			} else if split[2] == name { //miner
+				bal += strconv.Atoi(split[0])
+			} else if split[3] == name { //reciver
+				bal += strconv.Atoi(split[1])
+			} else if split[7] == name { //miner
+				bal += strconv.Atoi(split[5])
+			}
+		}
+
+		return bal
+	}
 }
 
 func InsertBlock(transaction string, chainHead *Block) *Block {
