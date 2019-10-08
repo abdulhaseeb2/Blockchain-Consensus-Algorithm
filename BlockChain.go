@@ -35,14 +35,16 @@ func getBalance(name string, chainHead *Block) int {
 			bal := 0
 			split := strings.Split(chainHead.Transaction, " ")
 			if split[0] == name { //payee
-				bal -= strconv.Atoi(split[1])
+				bal, _ = strconv.Atoi(split[1])
+				bal = 0 - bal
 			} else if split[2] == name { //miner
-				bal += strconv.Atoi(split[0])
+				bal, _ = strconv.Atoi(split[0])
 			} else if split[3] == name { //reciver
-				bal += strconv.Atoi(split[1])
+				bal, _ = strconv.Atoi(split[1])
 			} else if split[7] == name { //miner
-				bal += strconv.Atoi(split[5])
+				bal, _ = strconv.Atoi(split[5])
 			}
+			return bal
 		}
 
 		return 0
@@ -50,20 +52,22 @@ func getBalance(name string, chainHead *Block) int {
 	} else {
 
 		bal := getBalance(name, chainHead.PreviousBlock)
+		bal1 := 0
 		if strings.Contains(chainHead.Transaction, name) {
 			split := strings.Split(chainHead.Transaction, " ")
 			if split[0] == name { //payee
-				bal -= strconv.Atoi(split[1])
+				bal1, _ = strconv.Atoi(split[1])
+				bal1 = 0 - bal1
 			} else if split[2] == name { //miner
-				bal += strconv.Atoi(split[0])
+				bal1, _ = strconv.Atoi(split[0])
 			} else if split[3] == name { //reciver
-				bal += strconv.Atoi(split[1])
+				bal1, _ = strconv.Atoi(split[1])
 			} else if split[7] == name { //miner
-				bal += strconv.Atoi(split[5])
+				bal1, _ = strconv.Atoi(split[5])
 			}
 		}
 
-		return bal
+		return bal + bal1
 	}
 }
 
