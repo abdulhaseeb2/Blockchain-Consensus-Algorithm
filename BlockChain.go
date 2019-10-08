@@ -29,7 +29,7 @@ func hashBlock(block string) string {
 
 }
 
-func getBalance(name string, chainHead *Block) int {
+func GetBalance(name string, chainHead *Block) int {
 	if chainHead.PreviousBlock == nil { //genesis Node
 		if strings.Contains(chainHead.Transaction, name) {
 			bal := 0
