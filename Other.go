@@ -25,7 +25,7 @@ func Me(conn net.Conn, port string, name string) {
 	}
 }
 
-var TempChain *a1.Block
+var TempChain *Block
 var Name string
 
 func ListenToPeers(peers []string, port string, host string) {
@@ -73,7 +73,7 @@ func ListenToPeers(peers []string, port string, host string) {
 }
 
 func BroadCastMeInTheAir(conn net.Conn, peers []string) {
-	var blk a1.Block
+	var blk Block
 	println("\nRecieved Broadcast")
 	for {
 		//println("Mhere")
@@ -139,7 +139,7 @@ func CmdINPUT(host string, port string) {
 	}
 }
 
-func DecryptBC(chainHead *a1.Block) []string {
+func DecryptBC(chainHead *Block) []string {
 
 	if chainHead.PreviousBlock == nil { //genesis Node
 
@@ -150,7 +150,7 @@ func DecryptBC(chainHead *a1.Block) []string {
 	return append(DecryptBC(chainHead.PreviousBlock), chainHead.Transaction)
 }
 
-func SendBroadCast(peers []string, blk a1.Block) {
+func SendBroadCast(peers []string, blk Block) {
 	for _, broadcast := range peers {
 		conn, err := net.Dial("tcp", broadcast)
 		if err != nil {
@@ -201,7 +201,7 @@ func SendBroadCast(peers []string, blk a1.Block) {
 
 func VerifyAndBroadcast(trans string, peers []string, bo bool) {
 	split := strings.Split(trans, " ")
-	balance := a1.GetBalance(split[0], tempChain)
+	balance := GetBalance(split[0], tempChain)
 	println("\nAvailable Balance for transacton: ", balance)
 	req, err := strconv.Atoi(split[1])
 	if err != nil {
@@ -212,15 +212,15 @@ func VerifyAndBroadcast(trans string, peers []string, bo bool) {
 		if bo {
 			trans = trans + " \n 50 -> " + name
 		}
-		tempChain = a1.InsertBlock(trans, tempChain)
+		tempChain = InsertBlock(trans, tempChain)
 		//add threads wala function
-		var blk a1.Block
+		var blk Block
 		blk.HashValue = tempChain.HashValue
 		blk.Transaction = tempChain.Transaction
 		blk.PreviousBlock = nil
 
 		println("\n")
-		a1.ListBlocks(tempChain)
+		ListBlocks(tempChain)
 		println("\n")
 
 		go SendBroadCast(peers, blk)
