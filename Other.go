@@ -9,8 +9,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	a1 "github.com/tigerdrifter/assignment02IBC"
 )
 
 func Me(conn net.Conn, port string, name string) {
