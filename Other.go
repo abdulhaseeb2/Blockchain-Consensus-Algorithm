@@ -210,7 +210,7 @@ func VerifyAndBroadcast(trans string, peers []string, bo bool) {
 	}
 	if req <= balance { //Commit block and broadcast
 		if bo {
-			trans = trans + " \n 50 -> " + name
+			trans = trans + " \n 50 -> " + Name
 		}
 		TempChain = InsertBlock(trans, TempChain)
 		//add threads wala function
@@ -220,7 +220,7 @@ func VerifyAndBroadcast(trans string, peers []string, bo bool) {
 		blk.PreviousBlock = nil
 
 		println("\n")
-		ListBlocks(tempChain)
+		ListBlocks(TempChain)
 		println("\n")
 
 		go SendBroadCast(peers, blk)
