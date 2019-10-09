@@ -5,11 +5,9 @@ import (
 	"log"
 	"math/rand"
 	"net"
-
-	a1 "github.com/tigerdrifter/assignment02IBC"
 )
 
-func SendBlockchain(port net.Conn, chainHead *a1.Block) {
+func SendBlockchain(port net.Conn, chainHead *Block) {
 	gobEncoder := gob.NewEncoder(port)
 	err := gobEncoder.Encode(&chainHead)
 	if err != nil {
